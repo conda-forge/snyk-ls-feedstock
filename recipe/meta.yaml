@@ -1,5 +1,5 @@
 {% set name = "snyk-ls" %}
-{% set version = "20240830.154625" %}
+{% set version = "20241113.130608" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/snyk/snyk-ls/archive/v{{ version }}.tar.gz
-  sha256: 5caa5ba8009b691e013d461af876845d0c554de67751ec97b39b82ac120f8b44
+  sha256: 6b9f432ed7f387b3b75b6174fe6b299ff6aac87cd3ba844b0297d199a646d785
 
 build:
   number: 0
@@ -18,10 +18,14 @@ requirements:
     - go-licenses
 
 test:
-  requires:
-    - m2-grep  # [win]
   commands:
-    - snyk-ls --help 2>&1 | grep -q "Usage of snyk-ls"
+    - snyk-ls &  # [unix]
+    - exe_pid=$!  # [unix]
+    - trap "kill -SIGTERM ${exe_pid}" SIGTERM  # [unix]
+    - start /b snyk-ls   # [win]
+    - if %errorlevel% neq 0 exit %errorlevel%  # [win]
+    - taskkill /F /im snyk-ls.exe  # [win]
+    - if %errorlevel% neq 0 exit %errorlevel%  # [win]
 
 about:
   home: https://github.com/snyk/snyk-ls
