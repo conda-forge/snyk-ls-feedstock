@@ -1,5 +1,5 @@
 {% set name = "snyk-ls" %}
-{% set version = "20241119.123428" %}
+{% set version = "20241121.162915" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/snyk/snyk-ls/archive/v{{ version }}.tar.gz
-  sha256: 25f30460ebaabdb35bb4276053b372274d771571a5949dcc071fcd858bb80356
+  sha256: f3b0aa7cb669f82789eb79238a4949a89706cb71aa766abf041fc9363c1ab2e0
 
 build:
   number: 0
